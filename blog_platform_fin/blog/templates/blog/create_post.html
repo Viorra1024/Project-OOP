@@ -1,0 +1,74 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Создать пост | TEDD{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Создать пост</h2>
+    <div class="card p-4 shadow-sm">
+        <form id="postForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Поле для заголовка -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Заголовок</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Введите заголовок" required>
+            </div>
+
+            <!-- Поле для текста поста -->
+            <div class="mb-3">
+                <label for="content" class="form-label">Текст поста</label>
+                <textarea class="form-control" id="content" name="content" placeholder="Напишите что-нибудь..." rows="4" required></textarea>
+            </div>
+
+            <!-- Выбор категории -->
+            <div class="mb-3">
+                <label for="category" class="form-label">Категория</label>
+                <select name="category" id="category" class="form-control" required>
+                    <option value="">Выберите категорию</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Поле для загрузки изображения -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Изображение (необязательно)</label>
+                <input type="file" class="form-control" id="image" name="image">
+            </div>
+
+            <!-- Кнопки "Отмена" и "Опубликовать" -->
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="closeCreatePostModal()">Отмена</button>
+                <button type="submit" class="btn btn-dark">Опубликовать</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript для AJAX-отправки формы -->
+<script>
+    document.getElementById("postForm").addEventListener("submit", function(event) {
+        event.preventDefault();  // Отмена стандартной отправки формы
+
+        let formData = new FormData(this);
+
+        fetch("/api/create_post/", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Пост опубликован!");
+                location.reload();
+            } else {
+                alert("Ошибка: " + data.error);
+            }
+        })
+        .catch(error => console.error("Ошибка:", error));
+    });
+</script>
+
+{% endblock %}
