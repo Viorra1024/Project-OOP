@@ -11,11 +11,27 @@
     <div class="card p-4 shadow-sm" style="width: 400px;">
         <h3 class="text-center">Регистрация</h3>
 
+        <!-- Вывод сообщений об ошибках -->
         {% if messages %}
         <div class="alert alert-danger">
-            {% for message in messages %}
-                <p class="mb-0">{{ message }}</p>
-            {% endfor %}
+            <ul class="mb-0">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Вывод ошибок формы -->
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
         </div>
         {% endif %}
 

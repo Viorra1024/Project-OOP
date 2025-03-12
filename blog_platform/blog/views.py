@@ -11,6 +11,7 @@ from .forms import PostForm
 from django.http import JsonResponse
 from .models import Comment
 from django.db.models import Q
+from .forms import RegisterForm
 
 # Главная страница
 from django.shortcuts import render
@@ -51,21 +52,18 @@ def login_view(request):
 
 # Страница регистрации
 def register_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Имя пользователя уже занято')
-        elif User.objects.filter(email=email).exists():
-            messages.error(request, 'Электронная почта уже зарегистрирована')
-        else:
-            user = User.objects.create_user(username=username, email=email, password=password)
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect("home")
+        else:
+            return render(request, "blog/register.html", {"form": form})  # Покажет ошибки
+    else:
+        form = RegisterForm()
 
-    return render(request, 'blog/register.html')
+    return render(request, "blog/register.html", {"form": form})
 
 
 def messages_view(request):
