@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-danger">Удаление поста</h2>
+        <p>Вы уверены, что хотите удалить пост <strong>"{{ post.title }}"</strong>?</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'post_detail' post.id %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-danger">🗑 Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

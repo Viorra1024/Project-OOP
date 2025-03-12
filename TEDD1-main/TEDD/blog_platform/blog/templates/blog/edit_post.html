@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование поста{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Редактирование поста</h2>
+
+    <div class="card p-4 shadow-sm">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'post_detail' post.id %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-success">💾 Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
