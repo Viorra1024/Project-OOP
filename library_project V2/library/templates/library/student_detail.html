@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Library System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2, h3 {
+      color: #333;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #3498db;
+    }
+
+    a:hover {
+      color: #1d6a9f;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      background: #fff;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .error {
+      color: #e74c3c;
+      background: #f8d7da;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .success {
+      color: #2ecc71;
+      background: #d4edda;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<h2>Student Details</h2>
+<p>Name: {{ student.name }} {{ student.surname }}</p>
+<p>Group: {{ student.group }}</p>
+<h3>Borrowed Books:</h3>
+<ul>
+  {% for book in student.borrowed_books.all %}
+    <li>{{ book.title }}</li>
+  {% empty %}
+    <li>No books borrowed</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'home' %}">Back</a>
+
+</body>
+</html>
